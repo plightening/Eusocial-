@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eusocial — say what happened, anonymously</title>
+<meta name="description" content="An anonymous space for parents living with perinatal mental health struggles to release their story — or share it to help map the gaps in care." />
+<!--
+  ══════════════════════════════════════════════════════════════
+  EUSOCIAL — YOUR WEBSITE FILE. You own this.
+  TO FINISH SETUP, find-and-replace these three placeholders:
+    1. PASTE-YOUR-TALLY-LINK   → your Tally form address
+    2. YOUR-HOURS-HERE         → e.g. Tuesdays & Thursdays, 10am–1pm MT
+    3. YOUR-CONTACT-HERE       → e.g. Signal @Eusocial, or your TextNow number
+  Anything between quotes or between > and < is safe to edit.
+  ══════════════════════════════════════════════════════════════
+-->
+<style>
+  :root{
+    --night:#141628; --nightsoft:#1D2038; --card:#232746;
+    --moon:#F2EDE3; --moondim:#B9B4C7; --gold:#E8C46B; --golddeep:#C9A24B;
+    --rose:#D98E9C; --line:#3A3E63;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; color:var(--moon);
+    background:radial-gradient(ellipse at 50% -10%, var(--nightsoft) 0%, var(--night) 60%);
+    font-family:Georgia,'Times New Roman',serif; line-height:1.6;
+  }
+  .stars{position:fixed; inset:0; overflow:hidden; pointer-events:none}
+  .star{position:absolute; border-radius:50%; background:var(--moon); animation:twinkle 5s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.6}}
+  @keyframes drift{
+    0%{opacity:1; transform:translateY(0); filter:blur(0)}
+    100%{opacity:0; transform:translateY(-90px); filter:blur(6px)}
+  }
+  .drifting{animation:drift 2.4s ease-in forwards}
+  @media (prefers-reduced-motion: reduce){
+    .drifting{animation:none; opacity:0; transition:opacity 1.2s}
+    .star{animation:none; opacity:.3}
+  }
+  .crisis{
+    position:relative; background:rgba(217,142,156,.12); border-bottom:1px solid var(--line);
+    padding:10px 16px; text-align:center; font-size:13.5px;
+  }
+  .crisis strong{color:var(--rose)}
+  main{position:relative; max-width:640px; margin:0 auto; padding:48px 20px 80px}
+  header{text-align:center; margin-bottom:36px}
+  h1{font-weight:400; font-size:clamp(38px,8vw,56px); margin:0; letter-spacing:.01em}
+  .intro{color:var(--moondim); font-size:16.5px; margin-top:16px}
+  .statbox{
+    margin-top:22px; background:var(--nightsoft); border:1px solid var(--line);
+    border-radius:14px; padding:16px 18px; text-align:left; font-size:14px; color:var(--moondim);
+  }
+  .kicker{font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:8px}
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px 22px}
+  .prompt{font-size:21px; font-style:italic; color:var(--gold); margin:0 0 14px; display:block}
+  textarea{
+    width:100%; background:var(--nightsoft); color:var(--moon); border:1px solid var(--line);
+    border-radius:12px; padding:16px; font-size:16px; line-height:1.6; font-family:inherit; resize:vertical;
+  }
+  textarea::placeholder{color:var(--moondim); opacity:.7}
+  .taghint{font-size:13px; color:var(--moondim); margin:18px 0 10px}
+  .tags{display:flex; flex-wrap:wrap; gap:8px}
+  .tag{
+    background:transparent; color:var(--moondim); border:1px solid var(--line); border-radius:999px;
+    padding:7px 13px; font-size:13px; cursor:pointer; font-family:inherit;
+  }
+  .tag.on{background:rgba(232,196,107,.16); color:var(--gold); border-color:var(--golddeep)}
+  .actions{margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center}
+  .btn{
+    border-radius:999px; padding:13px 26px; font-size:15px; font-family:inherit; cursor:pointer; letter-spacing:.02em;
+  }
+  .btn.ghost{background:transparent; color:var(--moon); border:1px solid var(--line)}
+  .btn.solid{background:var(--gold); color:var(--night); border:1px solid var(--gold)}
+  .finehint{font-size:12.5px; color:var(--moondim); margin-top:16px; margin-bottom:0}
+  .finehint strong{color:var(--moon)}
+  .after{text-align:center; padding:60px 10px; display:none}
+  .after .big{font-size:30px; font-style:italic; color:var(--gold)}
+  .after p{color:var(--moondim); font-size:16px; max-width:440px; margin:18px auto}
+  section.block{margin-top:44px; border-top:1px solid var(--line); padding-top:32px}
+  h2{font-weight:400; font-size:22px; margin:0 0 10px}
+  .block p{color:var(--moondim); font-size:15.5px; margin:0 0 10px}
+  .block .contact{color:var(--moon)}
+  textarea:focus,button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  footer{margin-top:56px; text-align:center; font-size:12px; color:var(--moondim)}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true" id="stars"></div>
+
+<div class="crisis">
+  If you're in crisis or need support right now: <strong>call or text 988</strong> ·
+  text <strong>HOME to 741741</strong> (Crisis Text Line, 24/7, free) · or call <strong>911</strong>.
+  This page listens — it is not medical care. Please also reach out to your own provider.
+</div>
+
+<main>
+  <header>
+    <h1>Eusocial</h1>
+    <p class="intro">
+      A place for parents living with perinatal mental health struggles — before, during, and long
+      after the first year — to say what happened, anonymously. No names. No accounts. No judgment.
+      You choose: let your words go, or let them count.
+    </p>
+    <div class="statbox">
+      <div class="kicker">Why this exists</div>
+      1 in 5 women experience a perinatal mental health condition — most never receive treatment.
+      For Black women, it's closer to 1 in 3 — and they're half as likely to receive care.
+      Indigenous women are three times more likely to have their needs go unmet. Women of color
+      overall are diagnosed later, if at all. 2SLGBTQIA+ parents face some of the highest unmet
+      needs — highest among transgender parents. Every story here documents why — and what must
+      change.
+    </div>
+  </header>
+
+  <section class="panel" id="panel">
+    <label class="prompt" for="story" id="promptText">What happened when you tried to get help?</label>
+    <textarea id="story" rows="8" placeholder="Say it however it comes out. Nobody will correct your words here."></textarea>
+    <div class="taghint">If you want, mark what this touches — it helps map the gaps:</div>
+    <div class="tags" id="tags"></div>
+    <div class="actions">
+      <button class="btn ghost" onclick="releaseStory()">Release it into the night</button>
+      <button class="btn solid" onclick="shareStory()">Share it with the project</button>
+    </div>
+    <p class="finehint">
+      <strong>Release</strong> — your words never leave your screen and are saved nowhere.
+      <strong>Share</strong> — your anonymous story goes to Eusocial, where it may be chosen to help
+      document gaps in care and push for change. Stories are reviewed before use and identifying
+      details are removed. Because stories are anonymous, we can't identify or remove a specific
+      story once shared — please share only what you're comfortable having used. Nothing is kept
+      with your name, email, or number — we never have them.
+    </p>
+  </section>
+
+  <section class="after" id="released">
+    <div class="big">It's out of you now.</div>
+    <p>Your words were real, and now they belong to the night sky. What you're carrying is heavy,
+    and it is not your fault. People get to the other side of this — every day, with support.</p>
+    <button class="btn ghost" onclick="resetPanel()">Say something else</button>
+  </section>
+
+  <section class="block">
+    <h2>A real person, if you want one</h2>
+    <p>
+      Sometimes you need a human who's been there. Eusocial offers free,
+      text-based peer check-ins from a trained and certified peer supporter with lived experience.
+      Not therapy, not medical care, no records kept — just someone in your corner.
+    </p>
+    <p class="contact">Reach out: <a href="https://signal.me/#eu/Lnt-pMbCjTIezwu0XF3gc9mbonHMXZD9lN3H63NHCR30WvyxiEBKAp8VFxIZd5pU" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline;">Message us on Signal</a> · Replies: Tu/Thurs/Sat between 12pm-8pm PT.</p>
+    <p>If you're in crisis, use 988 first — then message us too. We still want to hear from you when you're safe.</p>
+  </section>
+
+  <section class="block">
+    <h2>For Family and Community Support</h2>
+    <p>
+      Many struggling parents never say the words "I'm not okay." Learn the signs, ask directly,
+      and keep showing up to support.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>You can get to the other side</h2>
+    <p>
+      Perinatal mental health conditions are among the most treatable conditions in all of mental
+      health. People get to the other side of this. Your story here helps build the care that
+      should have existed all along.
+    </p>
+  </section>
+
+  <footer>Eusocial · anonymous by design · nothing here is kept without your consent</footer>
+</main>
+
+<script>
+  // ------- stars -------
+  const starBox = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 1.6 + 0.4;
+    s.style.cssText = 'left:' + (Math.random()*100) + '%;top:' + (Math.random()*100) +
+      '%;width:' + size + 'px;height:' + size + 'px;animation-duration:' + (Math.random()*4+3) +
+      's;animation-delay:' + (Math.random()*4) + 's;opacity:' + (Math.random()*0.5+0.15);
+    starBox.appendChild(s);
+  }
+
+  // ------- rotating prompt -------
+  const PROMPTS = [
+    "What happened when you tried to get help?",
+    "What do you wish had existed for you?",
+    "What do you wish your family had known?",
+    "What would have actually helped?"
+  ];
+  document.getElementById('promptText').textContent = PROMPTS[Math.floor(Math.random()*PROMPTS.length)];
+
+  // ------- tags -------
+  const TAGS = [
+    "Getting care at all","Cost / insurance","Racism / being dismissed",
+    "Family didn't know how to help","Still struggling after year one",
+    "Provider didn't understand PMH","Fear of being reported",
+    "BIPOC","2SLGBTQIA+","Something else"
+  ];
+  const tagBox = document.getElementById('tags');
+  TAGS.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'tag'; b.textContent = t; b.setAttribute('aria-pressed','false');
+    b.onclick = () => {
+      b.classList.toggle('on');
+      b.setAttribute('aria-pressed', b.classList.contains('on') ? 'true' : 'false');
+    };
+    tagBox.appendChild(b);
+  });
+
+  // ------- release: words never leave the screen -------
+  function releaseStory(){
+    const story = document.getElementById('story');
+    if (!story.value.trim()) return;
+    const panel = document.getElementById('panel');
+    panel.classList.add('drifting');
+    setTimeout(() => {
+      story.value = '';
+      document.querySelectorAll('.tag.on').forEach(t => { t.classList.remove('on'); t.setAttribute('aria-pressed','false'); });
+      panel.style.display = 'none';
+      panel.classList.remove('drifting');
+      document.getElementById('released').style.display = 'block';
+    }, 2400);
+  }
+  function resetPanel(){
+    document.getElementById('released').style.display = 'none';
+    const panel = document.getElementById('panel');
+    panel.style.display = 'block';
+    document.getElementById('promptText').textContent = PROMPTS[Math.floor(Math.random()*PROMPTS.length)];
+  }
+
+  // ------- share: opens your Tally form -------
+  const TALLY_LINK = "https://tally.so/r/aQP11b";
+  function shareStory(){
+    if (TALLY_LINK.indexOf("PASTE-YOUR") === 0) {
+      alert("Sharing opens very soon. For tonight: release it into the night — your words still count, and we're still glad you're here.");
+      return;
+    }
+    window.open(TALLY_LINK, "_blank");
+  }
+</script>
+</body>
+</html>
